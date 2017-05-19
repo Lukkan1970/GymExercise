@@ -14,5 +14,8 @@ namespace Gymbokningv0._1.Models
         public DateTime EndTime { get { return StartTime + Duration; } }
         public String Description { get; set; }
 
+        public virtual ICollection<ApplicationUser> AttendingMembers { get; set; }
+
+
     }
 }
