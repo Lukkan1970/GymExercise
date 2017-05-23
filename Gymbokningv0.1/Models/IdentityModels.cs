@@ -34,7 +34,7 @@ namespace Gymbokningv0._1.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
-        public DbSet<Models.GymClass> GymClasses { get; set; }
+        public DbSet<GymClass> GymClasses { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

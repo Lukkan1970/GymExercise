@@ -6,6 +6,12 @@
 
 <h2>Index</h2>
 
+<label class="switch">
+    <input type="checkbox" name="viewHistory" value="vH">
+    <span>View History</span>
+</label>
+
+
 <p>
     @if (User.IsInRole("admin"))
     {
@@ -47,7 +53,7 @@
         @if (User.Identity.IsAuthenticated)
         {
         <td>
-            @if(User.IsInRole("admin"))
+            @if (User.IsInRole("admin"))
             {
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 <span>|</span>
@@ -55,10 +61,22 @@
                 <span>|</span>
             }
             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Wok", "BookingToggle", new { id = item.Id })
+       
+            @{
+                if (item.AttendingMembers.Any(v => v.Email == User.Identity.Name))
+                {
+                    @Html.ActionLink("Unbook", "BookingToggle", new { id = item.Id })
+                }
+                else
+                {
+                    @Html.ActionLink("Book", "BookingToggle", new { id = item.Id })
+                }
+            }
+           
         </td>
         }
     </tr>
+
 }
 
 </table>
