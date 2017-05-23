@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Gymbokningv0._1.Models
@@ -64,6 +65,28 @@ namespace Gymbokningv0._1.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            timeOfRegistration = DateTime.Now;
+        }
+
+        [Display(Name ="First name")]
+        public string FirstName { get; set; }
+
+        [Display(Name ="Last name")]
+
+        public string LastName { get; set; }
+        public string FullName { get { return FirstName + " " + LastName; } }
+
+        DateTime timeOfRegistration;
+        public DateTime TimeOfRegistration
+        {
+            get
+            {
+                return timeOfRegistration;
+            }
+        }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

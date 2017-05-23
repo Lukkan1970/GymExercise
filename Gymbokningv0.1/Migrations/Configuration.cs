@@ -24,7 +24,7 @@ namespace Gymbokningv0._1.Migrations
 
             foreach (var roleName in roleNames)
             {
-                if (!context.Roles.Any(r => r.Name == roleName) )
+                if (!context.Roles.Any(r => r.Name == roleName))
                 {
                     var role = new IdentityRole { Name = roleName };
                     var result = roleManager.Create(role);
@@ -39,22 +39,26 @@ namespace Gymbokningv0._1.Migrations
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var emails = new[] {"admin@gymbokning.se" };//, "editor@gymbokning.se", "root@gymbokning.se" };
+            var emails = new[] { "admin@gymbokning.se" };//, "editor@gymbokning.se", "root@gymbokning.se" };
 
             foreach (var email in emails)
             {
-                if (!context.Users.Any(u => u.UserName == email) )
+                if (!context.Users.Any(u => u.UserName == email))
                 {
                     var user = new ApplicationUser
                     {
                         UserName = email,
-                        Email = email
+                        Email = email,
+                        FirstName = "admin",
+                        LastName = "admin",
+                        TimeOfRegistration = DateTime.Now,
+                        
                     };
                     var result = userManager.Create(user, "Admin1!");
                     if (!result.Succeeded)
                     {
                         throw new Exception(string.Join("\n", result.Errors));
-                    } 
+                    }
                 }
             }
 
