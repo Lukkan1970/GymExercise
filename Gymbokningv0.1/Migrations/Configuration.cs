@@ -20,7 +20,7 @@ namespace Gymbokningv0._1.Migrations
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-            var roleNames = new[] {"Admin", "Member" };
+            var roleNames = new[] { "admin" };//, "Member" };
 
             foreach (var roleName in roleNames)
             {
@@ -39,7 +39,7 @@ namespace Gymbokningv0._1.Migrations
             var userStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var emails = new[] { "patrik@gymbokning.se", "admin@gymbokning.se" };//, "editor@gymbokning.se", "root@gymbokning.se" };
+            var emails = new[] {"admin@gymbokning.se" };//, "editor@gymbokning.se", "root@gymbokning.se" };
 
             foreach (var email in emails)
             {
@@ -50,7 +50,7 @@ namespace Gymbokningv0._1.Migrations
                         UserName = email,
                         Email = email
                     };
-                    var result = userManager.Create(user, "Password");
+                    var result = userManager.Create(user, "Admin1!");
                     if (!result.Succeeded)
                     {
                         throw new Exception(string.Join("\n", result.Errors));
@@ -59,7 +59,7 @@ namespace Gymbokningv0._1.Migrations
             }
 
             var adminUser = userManager.FindByName("admin@gymbokning.se");
-            userManager.AddToRole(adminUser.Id, "Admin");
+            userManager.AddToRole(adminUser.Id, "admin");
 
             //var memberUser = userManager.FindByName()
 
