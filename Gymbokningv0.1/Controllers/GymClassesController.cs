@@ -46,6 +46,7 @@ namespace Gymbokningv0._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
@@ -59,6 +60,7 @@ namespace Gymbokningv0._1.Controllers
         }
 
         // GET: GymClasses/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +80,7 @@ namespace Gymbokningv0._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
@@ -90,6 +93,7 @@ namespace Gymbokningv0._1.Controllers
         }
 
         // GET: GymClasses/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -124,6 +128,7 @@ namespace Gymbokningv0._1.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize]
         public ActionResult BookingToggle(int id)
         {
             GymClass CurrentClass = db.GymClasses.Where(g => g.Id == id).FirstOrDefault();
