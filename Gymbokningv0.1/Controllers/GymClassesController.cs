@@ -36,6 +36,7 @@ namespace Gymbokningv0._1.Controllers
         }
 
         // GET: GymClasses/Create
+        [Authorize(Roles ="admin")]
         public ActionResult Create()
         {
             return View();
@@ -46,7 +47,7 @@ namespace Gymbokningv0._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public ActionResult Create([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
@@ -60,7 +61,7 @@ namespace Gymbokningv0._1.Controllers
         }
 
         // GET: GymClasses/Edit/5
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -80,7 +81,7 @@ namespace Gymbokningv0._1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles ="admin")]
         public ActionResult Edit([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
