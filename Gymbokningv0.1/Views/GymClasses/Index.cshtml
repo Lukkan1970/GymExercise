@@ -4,18 +4,138 @@
     ViewBag.Title = "Index";
 }
 
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
 <h2>Index</h2>
 
-<label class="switch">
-    <input type="checkbox" name="viewHistory" value="vH">
-    <span>View History</span>
-</label>
+<script>
+    function check() {
+        if (document.getElementById("chk1").checked == true)
+            document.getElementById("chk1").checked = true
+    }
 
+
+
+</script>
+
+
+
+<div id="checkbox-container">
+    <div>
+        <label for="option1">View History</label>
+        <input type="checkbox" name="opt1" id="option1">
+    </div>
+    <div>
+        <label for="option2">Option 2</label>
+        <input type="checkbox" id="option2">
+    </div>
+    <div>
+        <label for="option3">Option 3</label>
+        <input type="checkbox" id="option3">
+    </div>
+
+    <button>Check All</button>
+
+    <p>opt1 value: @Request["option1"]</p>
+    @*<p>opt2 value: @Request["opt2"]</p>
+    <p>opt3 value: @Request["opt3"]</p>*@
+</div>
+
+
+
+
+
+
+
+
+<form method="post">
+    <input type="checkbox" name="chk1" />
+
+    <span>View history</span>
+    <br />
+    @*<input type="checkbox" name="chk2" />
+        <span>Show only booked</span>
+        <br />*@
+    <input type="submit" />
+</form>
+<div>
+    <p>chk1 value: @Request["chk1"]</p>
+    @*<p>chk2 value: @Request["chk2"]</p>*@
+</div>
+
+
+<script>
+
+    var viewHistoryValue = localStorage.getItem('viewHistoryValue');
+    var $boxes = $("#chk1 :checkbox");
+    alert("val " + viewHistoryValue.toString);
+    
+    $boxes.on("change", function () {
+        $boxes.each(function () {
+            viewHistoryValue[this.name] = this.checked;
+        });
+        localStorage.setItem("viewHistoryValue", (viewHistoryValue);
+
+    });
+
+
+
+    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {};
+    var $checkboxes = $("#checkbox-container :checkbox");
+
+    $checkboxes.on("change", function () {
+        $checkboxes.each(function () {
+            checkboxValues[this.id] = this.checked;
+        });
+        localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    });
+
+
+    $.each(checkboxValues, function (key, value) {
+        $("#" + key).prop('checked', value);
+
+    });
+
+</script>
+
+
+<script>
+
+    alert("in the script");
+
+    $("#checkbox-container :checkbox").on("change", function () {
+        alert("The checkbox with the ID '" + this.id + "' changed");
+    });
+
+    localStorage.setItem("favoriteVillan", "Dr. Hannibal Lecter");
+
+    console.log(localStorage.getItem("favoriteVillan"));
+
+
+
+    var checkboxValues = JSON.parse(localStorage.getItem('checkboxValues')) || {};
+    var $checkboxes = $("#checkbox-container :checkbox");
+
+    $checkboxes.on("change", function () {
+        $checkboxes.each(function () {
+            checkboxValues[this.id] = this.checked;
+        });
+        localStorage.setItem("checkboxValues", JSON.stringify(checkboxValues));
+    });
+
+
+    $.each(checkboxValues, function (key, value) {
+        $("#" + key).prop('checked', value);
+
+    });
+
+</script>
 
 <p>
     @if (User.IsInRole("admin"))
     {
-    @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create")
     }
 </p>
 <table class="table">
@@ -35,48 +155,77 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Duration)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
+    @foreach (var item in Model)
+    {
+        var timeNow = DateTime.Now;
 
-        @if (User.Identity.IsAuthenticated)
+        //bool show = (@Request["chk1"] == "on");
+        //var op = (Request["opt1"]);
+
+
+        bool show = (@Request["chk1"] == "on");
+
+        //var ch1 = (@Request["chk1"]);
+        //var ch2 = (@Request["chk2"]);
+
+        if (show)
         {
-        <td>
-            @if (User.IsInRole("admin"))
-            {
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                <span>|</span>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                <span>|</span>
-            }
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-       
-            @{
-                if (item.AttendingMembers.Any(v => v.Email == User.Identity.Name))
-                {
-                    @Html.ActionLink("Unbook", "BookingToggle", new { id = item.Id })
-                }
-                else
-                {
-                    @Html.ActionLink("Book", "BookingToggle", new { id = item.Id })
-                }
-            }
-           
-        </td>
+            timeNow = DateTime.MinValue;
         }
-    </tr>
 
-}
+        if (item.StartTime > timeNow)
+        {
+
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                @if (User.Identity.IsAuthenticated)
+                    {
+                    <td>
+                        @if (User.IsInRole("admin"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                            <span>|</span>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                <span>|</span>
+                        }
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                        @{
+                            if (item.AttendingMembers.Any(v => v.Email == User.Identity.Name))
+                            {
+                                @Html.ActionLink("Unbook", "BookingToggle", new { id = item.Id })
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Book", "BookingToggle", new { id = item.Id })
+                            }
+                        }
+
+                    </td>
+                            }
+            </tr>
+                                }
+                            }
+
+
+
+
+  
+
 
 </table>
+
+

@@ -9,6 +9,8 @@
 
 </head>
 <body>
+
+    @Html.CheckBox("viewHistory", false)
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -21,9 +23,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @*<li>@Html.ActionLink("GymClassas", "Index", "GymClasses")</li>
-                    <li>@Html.ActionLink("About", "About", "GymClassas")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "GymClasses")</li>*@
+                    <li>@Html.ActionLink("Bokade Pass", "Index", "GymClasses")</li>
+                    <li>@Html.ActionLink("Historia", "About", "GymClassas")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "GymClasses")</li>*@
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
